@@ -18,16 +18,19 @@ class GoogleSheetsAPI:
 
         return service
 
-    def reader_sheets(self, _range):
+    def reader_sheets(self, _range, type):
         values = self.get_service_sacc().spreadsheets().values().get(
             spreadsheetId=self.spreadsheet_id,
             range=_range,
             majorDimension='ROWS'
         ).execute()
-        try:
-            return int(values['values'][0][0].replace(u'\xa0', '').split(',')[0])
-        except:
-            return False
+        if type == 'int':
+            try:
+                return int(values['values'][0][0].replace(u'\xa0', '').split(',')[0])
+            except:
+                return False
+        elif type == 'str':
+            return values['values'][0][0] if values['values'][0][0] in ['RUB', '%'] else False
 
     def writer_sheets(self, data):
         self.get_service_sacc().spreadsheets().values().batchUpdate(

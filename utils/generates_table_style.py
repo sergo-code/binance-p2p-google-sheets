@@ -38,6 +38,12 @@ def startup_table(sheets):
                 "endColumnIndex": 5
             },
             {
+                "startRowIndex": 0,
+                "endRowIndex": 1,
+                "startColumnIndex": 6,
+                "endColumnIndex": 7
+            },
+            {
                 "startRowIndex": 2,
                 "endRowIndex": 3,
                 "startColumnIndex": 0,

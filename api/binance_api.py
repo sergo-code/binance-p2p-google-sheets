@@ -20,8 +20,8 @@ class BinanceAPI:
         with open('data/banks.json') as file:
             return list(json.load(file).keys())
 
-    def get_p2p_price(self, PRICE_FROM):
-        trans = [PRICE_FROM, 0]
+    def get_p2p_price(self, Config):
+        trans = [Config.PRICE_FROM, 0]
 
         url = 'https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search'
         headers = {
@@ -56,7 +56,3 @@ class BinanceAPI:
         params = str(self.bundle).replace(' ', '')
         url = 'https://api.binance.com/api/v3/ticker/price?symbols={}'.format(params.replace('\'', '\"'))
         return requests.get(url=url).json()
-
-
-if __name__ == '__main__':
-    print(get_market_price())

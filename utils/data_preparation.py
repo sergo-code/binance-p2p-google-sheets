@@ -3,25 +3,24 @@ import time
 from tables import table_p2p, table_market, table_bank_to_bank, table_bank_to_coin_to_bank
 
 
-def grouping_data(data, symbols, BANKS, PRICE_FROM, BALANCE):
+def grouping_data(data, symbols, BANKS, Config):
     list_scheme_bank_to_coin_to_bank = list()
     for coin, list_price in data['bankToCoinToBank'].items():
         list_scheme_bank_to_coin_to_bank.append(table_bank_to_coin_to_bank(coin, list_price, BANKS, symbols.copy()))
 
     schemes = [table_p2p(data['p2pPrice'], BANKS),
                table_market(data['marketPrice']),
-               table_bank_to_bank(data['bankToBank'], BANKS, PRICE_FROM)]
+               table_bank_to_bank(data['bankToBank'], BANKS, Config.PRICE_FROM)]
     schemes += list_scheme_bank_to_coin_to_bank
 
     time_update = time.localtime(time.time())
 
-    array = [{'range': 'A1:A1',
-              'majorDimension': 'COLUMNS',
-              'values': [[f'{time_update.tm_hour}:{time_update.tm_min} по МСК']]
-              },
-             {'range': 'C1:F1',
+    array = [{'range': 'A1:H1',
               'majorDimension': 'ROWS',
-              'values': [['Цены от:', PRICE_FROM, 'Сумма на карте:', BALANCE]]
+              'values': [['Обновлено в:', f'{time_update.tm_hour}:{time_update.tm_min} по МСК',
+                          'Цены от:', Config.PRICE_FROM,
+                          'Баланс:', Config.BALANCE,
+                          'Спред в:', Config.MODE]]
               }]
 
     temp_length = 3

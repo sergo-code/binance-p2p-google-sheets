@@ -9,7 +9,7 @@ class BinanceAPI:
         self.bundle = self.get_bundle()
 
     def get_bundle(self):
-        with open('data/bundle.txt') as file:
+        with open('data/spread.txt') as file:
             return [line.rstrip() for line in file]
 
     def get_coins(self):

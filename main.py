@@ -59,10 +59,11 @@ def main(binance, sheets):
 
 if __name__ == '__main__':
     load_dotenv()
-    sheets_id = os.getenv('SHEET_ID')
-    sheets = GoogleSheetsAPI(sheets_id)
+    SHEETS_ID = os.getenv('SHEET_ID')
+    CREDENTIALS_FILE = os.getenv('CREDENTIALS_FILE')
+    sheets = GoogleSheetsAPI(SHEETS_ID, CREDENTIALS_FILE)
     binance = BinanceAPI()
-    # startup_table(sheets)
+    startup_table(sheets)
     try:
         main(binance, sheets)
     except KeyboardInterrupt:

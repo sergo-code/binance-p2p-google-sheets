@@ -65,7 +65,8 @@ if __name__ == '__main__':
     CREDENTIALS_FILE = os.getenv('CREDENTIALS_FILE')
     sheets = GoogleSheetsAPI(SHEETS_ID, CREDENTIALS_FILE)
     binance = BinanceAPI()
-    startup_table(sheets)
+    if input('Добавить/обновить стилистику таблицы (y/n)\n') == 'y':
+        startup_table(sheets)
     try:
         main(binance, sheets)
     except KeyboardInterrupt:

@@ -26,16 +26,17 @@ def main(binance, sheets):
         print('The time zone is not supported!')
 
     global BALANCE, PRICE_FROM, MODE
+    first_launch = 0
     while True:
         time_start = time.time()
+        if first_launch == 1:
+            temp_price = sheets.reader_sheets('D1:D1', 'int')
+            if temp_price:
+                Config.PRICE_FROM = temp_price
 
-        temp_price = sheets.reader_sheets('D1:D1', 'int')
-        if temp_price:
-            Config.PRICE_FROM = temp_price
-
-        temp_balance = sheets.reader_sheets('F1:F1', 'int')
-        if temp_balance:
-            Config.BALANCE = temp_balance
+            temp_balance = sheets.reader_sheets('F1:F1', 'int')
+            if temp_balance:
+                Config.BALANCE = temp_balance
 
         data = dict()
         market = binance.get_market_price()
@@ -54,6 +55,7 @@ def main(binance, sheets):
 
         sheets.writer_sheets(array)
 
+        first_launch = 1
         time.sleep(5*60 - (time.time() - time_start))
 
 
